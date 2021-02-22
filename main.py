@@ -27,12 +27,12 @@ if __name__ == "__main__":
             print ("Problem already exists!")
         else:
             print ("Successfully created the directory %s " % path)
-            file_name = 'Solution.java' 
+            file_name = 'Solution.py' 
             folder_name = problem_id + '-' + problem_name_slug
             file_path = path + 'algorithms/' + folder_name + '/' + file_name
             
             with open(file_path, 'w') as f:
-                f.write('/**\n * %s\n */\nclass Solution {\n\n}' % problem['stat']['question_id'])
+                f.write('\'\'\'\n %s. %s\n \'\'\'\nclass Solution:\n' % (problem['stat']['frontend_question_id'],problem['stat']['question__title']))
             
             if problem['difficulty']['level'] == 1:
                 difficulty = 'Easy'
@@ -41,4 +41,4 @@ if __name__ == "__main__":
             else:
                 difficulty = 'Hard'
 
-            update_readme(problem_id,problem['stat']['question__title'],url,'algorithms/%s/%s' % (folder_name,file_name),difficulty)
+            update_readme(problem_id,problem['stat']['frontend_question_id'],url,'algorithms/%s/%s' % (folder_name,file_name),difficulty)

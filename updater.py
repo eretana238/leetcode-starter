@@ -4,7 +4,7 @@ def update_readme(p_number, p_name,p_link,p_url,p_level):
     with open('C:/Users/chees/Documents/leetcode/README.md','r+') as f:
         lines = f.readlines()
         shift = []
-        row = '| %s | [%s](%s) | [View](%s) | %s | Java |\n' % (p_number,p_name,p_link,p_url,p_level)
+        row = '| %s | [%s](%s) | [View](%s) | %s | Python |\n' % (p_number,p_name,p_link,p_url,p_level)
         if len(lines) <= 5:
             lines.append('\n'+row)
         else:
