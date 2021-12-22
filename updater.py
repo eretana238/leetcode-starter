@@ -1,21 +1,35 @@
 import re
 
-def update_readme(p_number, p_name,p_link,p_url,p_level):
-    with open('C:/Users/chees/Documents/leetcode/README.md','r+') as f:
+"""Updates the readme file with the newly created leetcode problem"""
+
+
+def update_readme(problem, relative_path, url):
+    with open('C:/Users/chees/Documents/projects/leetcode/README.md', 'r+') as f:
         lines = f.readlines()
-        shift = []
-        row = '| %s | [%s](%s) | [View](%s) | %s | Python |\n' % (p_number,p_name,p_link,p_url,p_level)
-        if len(lines) <= 5:
-            lines.append('\n'+row)
-        else:
-            for i in range(5,len(lines)):
-                n = re.match('\d*',lines[i][2:8]).group()
-                if int(n) > int(p_number): 
-                    shift = lines[i:]
-                    lines[i] = row
-                    lines[i+1:] = shift
-                    break
-                if i == len(lines)-1:
-                    lines.append(row)
+        row = ''
+        if not lines:
+            row = 'Problem # | Problem Link | Solution | Difficulty | Language\n'
+            row += ' --- | --- | --- | --- | ---\n'
+
+        row += '%s | [%s](%s) | [Solution](%s) | %s | Python\n' % (str(problem['stat']['frontend_question_id']).zfill(4),
+                                                                   problem['stat']['question__title'], url, relative_path, level_to_str(problem['difficulty']))
+        lines.append(row)
+
+        if len(lines) > 3:
+            lines[2:] = sort_solution(lines)
+
         f.seek(0)
         f.writelines(lines)
+
+
+def level_to_str(difficulty: int) -> str:
+    if difficulty['level'] == 1:
+        return 'Easy'
+    elif difficulty['level'] == 2:
+        return 'Medium'
+    return 'Hard'
+
+
+def sort_solution(lines: list[str]):
+    s = sorted(lines[2:])
+    return s
