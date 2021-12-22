@@ -38,16 +38,16 @@ if __name__ == "__main__":
 
     problem = request_problem(problem_name_slug)
 
-    problem_id = parse_int(problem['stat']['question_id'])
+    problem_id = parse_int(problem['stat']['frontend_question_id'])
     # create directory
     if not create_dir(path):
         raise Exception('Could not create directory')
 
-    file_name = 'Solution.py'
     folder_name = problem_id + '-' + problem_name_slug
-    file_path = path + '/' + folder_name + '/' + file_name
+    relative_path = folder_name + '/Solution.py'
+    full_path = path + '/' + relative_path
 
-    with open(file_path, 'w') as f:
+    with open(full_path, 'w') as f:
         f.write('\'\'\'\n %s. %s\n \'\'\'\nclass Solution:\n' % (
             problem['stat']['frontend_question_id'], problem['stat']['question__title']))
 
@@ -58,5 +58,4 @@ if __name__ == "__main__":
     else:
         difficulty = 'Hard'
 
-    update_readme(problem_id, problem['stat']['question__title'],
-                  url, '%s/%s' % (folder_name, file_name), difficulty)
+    update_readme(problem, relative_path, url)
